@@ -1,0 +1,38 @@
+
+
+#ifndef NOISE_MAKER_RENDERER_H
+#define NOISE_MAKER_RENDERER_H
+
+#include "vec2f.h"
+
+enum RENDERER_INIT_ERROR
+{
+    RENDERER_INIT_ERROR_NONE
+    , RENDERER_INIT_ERROR_FAILED_SDL_INIT_VIDEO
+    , RENDERER_INIT_ERROR_FAILED_SDL_CREATEWINDOW
+    , RENDERER_INIT_ERROR_FAILED_SDL_GL_CREATECONTEXT
+    , RENDERER_INIT_ERROR_ALL
+};
+
+enum RENDERER_RENDERING_ERROR
+{
+    RENDERER_RENDERING_ERROR_NONE
+    , RENDERER_RENDERING_ERROR_ALL
+};
+
+struct renderer {
+    struct vec2i window_size;
+};
+
+extern struct renderer renderer;
+
+enum RENDERER_INIT_ERROR
+renderer_init();
+
+enum RENDERER_RENDERING_ERROR
+renderer_render();
+
+void
+renderer_destroy();
+
+#endif //NOISE_MAKER_RENDERER_H
