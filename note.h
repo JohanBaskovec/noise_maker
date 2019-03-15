@@ -31,11 +31,13 @@ struct note
     // volume per part, semi random too
     double volumes_per_part[MAX_NOTE_PARTS];
 
+    double volume;
+
     // time in frames since the note has been pressed
     int timer_frames;
 
     // the current volume for each channel
-    struct double_pair volume;
+    struct double_pair volume_per_channel;
 
     // the max volume of each channel
     struct double_pair max_volume;
@@ -75,8 +77,8 @@ note_play_new(struct note *note);
 void
 note_stop(struct note *note);
 
-void
-note_create_sample(struct note *note, struct int64_t_pair *samples);
+int64_t
+note_create_sample(struct note *note);
 
 /**
  * Set the target frequency from the note's

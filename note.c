@@ -19,11 +19,16 @@ note_init(struct note *note, struct instrument *instrument, int index)
 }
 
 double
-note_compute_part_frequency(struct note *note, double base_frequency, int part_index)
+note_compute_part_frequency(
+        struct note *note
+        , double base_frequency
+        , int part_index
+)
 {
     double frequency_offset_rand = (rand() % 100) / 100.0;
-    double frequency_offset = (part_index + 1) * 300 * note->instrument->frequency_percent *
-                              frequency_offset_rand;
+    double frequency_offset =
+            (part_index + 1) * 300 * note->instrument->frequency_percent *
+            frequency_offset_rand;
     return ((note->index + 1) * base_frequency) +
            frequency_offset;
 }
@@ -33,17 +38,26 @@ void
 note_set_target_frequency(struct note *note)
 {
     double base_frequency = 1000 * note->instrument->frequency_percent;
-    double target_frequency = note_compute_part_frequency(note, base_frequency, 0);
+    double target_frequency = note_compute_part_frequency(
+            note
+            , base_frequency
+            , 0
+    );
     double diff = target_frequency - note->instant_frequency[0];
-    for (int i = 0 ; i < note->instrument->parts ; i++)
+    for (int i = 0; i < note->instrument->parts; i++)
     {
         note->target_frequency[i] = note->instant_frequency[i] + diff;
         note->base_frequency[i] = note->instant_frequency[i];
         note->delta[i] = (M_PI * 2) * note->base_frequency[i] / SAMPLE_RATE;
-        if (note->sweep_duration_seconds == 0) {
+        if (note->sweep_duration_seconds == 0)
+        {
             note->f_delta[i] = 0;
-        } else {
-            note->f_delta[i] = (note->target_frequency[i] - note->base_frequency[i]) / (SAMPLE_RATE * note->sweep_duration_seconds);
+        }
+        else
+        {
+            note->f_delta[i] =
+                    (note->target_frequency[i] - note->base_frequency[i]) /
+                    (SAMPLE_RATE * note->sweep_duration_seconds);
         }
     }
 }
@@ -56,7 +70,7 @@ note_play_new(struct note *note)
     note->timer_frames = 0;
     note->released = false;
     note->released_on_frame = 0;
-    for (int i = 0 ; i < note->instrument->parts ; i++)
+    for (int i = 0; i < note->instrument->parts; i++)
     {
         note->delta[i] = 0;
         note->f_delta[i] = 0;
@@ -111,7 +125,7 @@ generate_sample_part(struct note *note, double phase_accumulator, double volume)
 }
 
 int64_t
-generate_sample(struct note *note, double volume)
+generate_sample(struct note *note)
 {
     int64_t sample = 0;
     for (int i = 0; i < note->instrument->parts; i++)
@@ -119,10 +133,11 @@ generate_sample(struct note *note, double volume)
         sample += generate_sample_part(
                 note
                 , note->phase_accumulator[i]
-                , note->volumes_per_part[i] * volume
+                , note->volumes_per_part[i] * note->volume
         );
         note->phase_accumulator[i] += note->delta[i];
-        if (fabs(note->instant_frequency[i] - note->target_frequency[i]) > 0.001)
+        if (fabs(note->instant_frequency[i] - note->target_frequency[i]) >
+            0.001)
         {
             note->instant_frequency[i] += note->f_delta[i];
         }
@@ -132,52 +147,41 @@ generate_sample(struct note *note, double volume)
 }
 
 
-void
-note_create_sample(struct note *note, struct int64_t_pair *samples)
+int64_t
+note_create_sample(struct note *note)
 {
     if (note->released)
     {
         if (note->timer_frames <
             note->released_on_frame + note->decay_duration_frames)
         {
-            double volume_percent = 1.0 -
-                                    ((note->timer_frames -
-                                      note->released_on_frame) /
-                                     (note->decay_duration_frames * 1.0));
-
-            note->volume.data[0] = note->instrument->volume_panning.data[0] * volume_percent;
-            note->volume.data[1] = note->instrument->volume_panning.data[1] * volume_percent;
+            note->volume = 1.0 -
+                           ((note->timer_frames -
+                             note->released_on_frame) /
+                            (note->decay_duration_frames * 1.0));
         }
         else
         {
             note->on = false;
-            return;
+            return 0;
         }
     }
     else
     {
         if (note->attack_duration_frame > note->timer_frames)
         {
-            double volume_percent =
+            note->volume =
                     note->timer_frames / (note->attack_duration_frame * 1.0);
-            note->volume.data[0] = note->instrument->volume_panning.data[0] * volume_percent;
-            note->volume.data[1] = note->instrument->volume_panning.data[1] * volume_percent;
         }
         else
         {
-            note->volume.data[0] = note->instrument->volume_panning.data[0];
-            note->volume.data[1] = note->instrument->volume_panning.data[1];
-        }
-    }
-    note->volume.data[0] *= note->instrument->volume_percent;
-    note->volume.data[1] *= note->instrument->volume_percent;
-    for (int i = 0 ; i < 2 ; i++)
-    {
-        if (note->volume.data[i] != 0)
-        {
-            samples->data[i] += generate_sample(note, note->volume.data[i]);
+            note->volume = 1.0;
         }
     }
 
+    note->volume *= note->instrument->volume_percent;
+
+    int64_t sample = generate_sample(note);
     ++note->timer_frames;
+    return sample;
 }

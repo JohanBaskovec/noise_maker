@@ -63,7 +63,7 @@ instrument_set_volume_and_frequency(
     instrument->frequency_percent = frequency_percent;
     instrument->volume_percent = volume_percent;
 
-    for (int i = 0 ; i < NOTES_PER_INSTRUMENT ; i++)
+    for (int i = 0; i < NOTES_PER_INSTRUMENT; i++)
     {
         if (instrument->notes[i].on)
         {
@@ -90,13 +90,21 @@ instrument_generate_sample(
         , struct int64_t_pair *samples
 )
 {
+    int64_t sample = 0;
+
     for (int i = 0; i < NOTES_PER_INSTRUMENT; i++)
     {
         if (instrument->notes[i].on)
         {
-            note_create_sample(&instrument->notes[i], samples);
+            sample += note_create_sample(&instrument->notes[i]);
         }
     }
+
+
+    samples->data[0] += (int64_t) (((int16_t) sample) *
+                                   instrument->volume_panning.data[0]);
+    samples->data[1] += (int64_t) (((int16_t) sample) *
+                                   instrument->volume_panning.data[1]);
 }
 
 void

@@ -169,7 +169,6 @@ audio_update()
             instrument_generate_sample(&audio.instruments[i], &samples);
         }
 
-
         audio_data.circular_buffer[audio_data.write_end] = (int16_t) samples.data[0];
         ++audio_data.write_end;
         if (audio_data.write_end == TABLE_SIZE)
