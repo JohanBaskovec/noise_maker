@@ -4,6 +4,7 @@
 #define NOISE_MAKER_INPUT_H
 
 #include <stdbool.h>
+#include <vec.h>
 
 #define NOTE_PER_SIDE 15
 
@@ -47,13 +48,19 @@ enum key {
     KEY_THREE_PART,
     KEY_FOUR_PART,
     KEY_FIVE_PART,
+    KEY_DRAW_MODE_0,
+
+    KEY_DRAW_MODE_1,
     KEY_ALL,
     KEY_NONE
 };
 
 struct input {
+    struct vec2i mouse_position;
+    struct vec2i mouse_delta;
     bool pressed_keys[KEY_ALL];
     bool previous_pressed_keys[KEY_ALL];
+    bool is_drawing;
 };
 
 extern struct input input;

@@ -14,4 +14,7 @@ struct vec2i
     int x;
     int y;
 };
+
+void
+vec2i_init_zero(struct vec2i *vec2i);
 #endif //NOISE_MAKER_VEC2F_H

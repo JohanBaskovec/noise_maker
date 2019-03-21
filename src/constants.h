@@ -1,0 +1,13 @@
+
+#define DRAW_SPACE_HEIGHT 200
+#define PLAY_SPACE_HEIGHT 800
+#define DRAW_SPACE_WIDTH 900
+
+#define SAMPLE_RATE (44100)
+#define BASE_SAMPLES (2.0 * M_PI)
+#define BASE_FREQUENCY (SAMPLE_RATE / BASE_SAMPLES)
+#define MAX_SAMPLE_VALUE 32767
+#define MS_TO_FRAMES(ms) ((int)((ms / 1000.0) * SAMPLE_RATE))
+#define FRAMES_TO_MS(frames) ((int)(((frames * 1.0) / (SAMPLE_RATE * 1.0)) * 1000))
+#define NUMBER_INSTRUMENTS 2
+#define NOTES_PER_INSTRUMENT 15

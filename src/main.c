@@ -13,8 +13,8 @@ main()
 {
     logging_trace("Program started.\n");
 
-    program_init();
     renderer_init();
+    program_init();
     audio_init();
     input_init();
 

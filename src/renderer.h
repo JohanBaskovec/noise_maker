@@ -3,7 +3,7 @@
 #ifndef NOISE_MAKER_RENDERER_H
 #define NOISE_MAKER_RENDERER_H
 
-#include "vec2f.h"
+#include "vec.h"
 
 enum RENDERER_INIT_ERROR
 {

@@ -3,8 +3,12 @@
 #include "program.h"
 #include "logging.h"
 #include "audio.h"
+#include "renderer.h"
 
 struct input input;
+
+void
+draw_in_canvas(struct sound_drawing_canvas *canvas);
 
 enum key key_mapping[SDL_NUM_SCANCODES];
 #define MAX_MOUSE_BUTTONS 4
@@ -14,7 +18,6 @@ enum key mouse_mapping[MAX_MOUSE_BUTTONS];
 void
 input_init()
 {
-    SDL_SetRelativeMouseMode(true);
     key_mapping[SDL_SCANCODE_Q] = KEY_NOTE_LEFT_1;
     key_mapping[SDL_SCANCODE_W] = KEY_NOTE_LEFT_2;
     key_mapping[SDL_SCANCODE_E] = KEY_NOTE_LEFT_3;
@@ -51,6 +54,7 @@ input_init()
     key_mapping[SDL_SCANCODE_3] = KEY_THREE_PART;
     key_mapping[SDL_SCANCODE_4] = KEY_FOUR_PART;
     key_mapping[SDL_SCANCODE_5] = KEY_FIVE_PART;
+    key_mapping[SDL_SCANCODE_F1] = KEY_DRAW_MODE_0;
 
 
     mouse_mapping[0] = KEY_NONE;
@@ -63,6 +67,9 @@ input_init()
         input.pressed_keys[i] = false;
         input.previous_pressed_keys[i] = false;
     }
+
+    input.mouse_delta.x = 0;
+    input.mouse_delta.y = 0;
 }
 
 void
@@ -251,6 +258,7 @@ key_down(enum key key)
         case KEY_NOTE_RIGHT_15:
             instrument_play(&audio.instruments[1], 14);
             break;
+
     }
     logging_trace("key down");
 }
@@ -351,7 +359,82 @@ key_up(enum key key)
         case KEY_NOTE_RIGHT_15:
             instrument_release_note(&audio.instruments[1], 14);
             break;
+        case KEY_SELECT_CHANNEL1:
+            input.is_drawing = false;
+            break;
     }
+}
+
+void
+draw_in_canvas(struct sound_drawing_canvas *canvas)
+{
+    input.is_drawing = true;
+    struct vec2i position_in_canvas;
+    position_in_canvas.x = input.mouse_position.x - canvas->box.left;
+    position_in_canvas.y = input.mouse_position.y - canvas->box.bottom;
+
+    for (int i = -11; i < 11; ++i)
+    {
+        int x = position_in_canvas.x - i;
+        if (x < 0 || x >= DRAW_SPACE_WIDTH)
+        {
+            continue;
+        }
+        canvas->instrument->sound_shape[x] = position_in_canvas.y;
+    }
+}
+
+void
+key_pressing()
+{
+    if (!input.is_drawing &&
+        box_contain_vec2i(&program.playing_area_box, &input.mouse_position))
+    {
+        if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
+        {
+            program.pointers[0].x += input.mouse_delta.x;
+            program.pointers[0].y += input.mouse_delta.y;
+            program.pointers[1].x += input.mouse_delta.x;
+            program.pointers[1].y += input.mouse_delta.y;
+            audio_init_note_frequencies_and_volume();
+        }
+        else if (input.pressed_keys[KEY_SELECT_CHANNEL1])
+        {
+            program.pointers[0] = input.mouse_position;
+            audio_init_note_frequencies_and_volume();
+        }
+        else if (input.pressed_keys[KEY_SELECT_CHANNEL2])
+        {
+            program.pointers[1] = input.mouse_position;
+            audio_init_note_frequencies_and_volume();
+        }
+    }
+    else
+    {
+        if (input.pressed_keys[KEY_SELECT_CHANNEL1])
+        {
+            for (int i = 0; i < 2; ++i)
+            {
+                if (box_contain_vec2i(
+                        &program.sound_drawing_canvas[i].box
+                        , &input.mouse_position
+                ))
+                {
+                    draw_in_canvas(&program.sound_drawing_canvas[i]);
+                }
+            }
+        }
+    }
+
+}
+
+void
+mouse_move(SDL_MouseMotionEvent e)
+{
+    input.mouse_position.x = e.x;
+    input.mouse_position.y = renderer.window_size.y - e.y;
+    input.mouse_delta.x = e.xrel;
+    input.mouse_delta.y = -e.yrel;
 }
 
 void
@@ -361,6 +444,8 @@ input_poll()
     {
         input.previous_pressed_keys[i] = input.pressed_keys[i];
     }
+    input.mouse_delta.x = 0;
+    input.mouse_delta.y = 0;
 
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0)
@@ -372,7 +457,6 @@ input_poll()
                 break;
             case SDL_KEYDOWN:
                 key_down(key_mapping[e.key.keysym.scancode]);
-
                 break;
             case SDL_KEYUP:
                 key_up(key_mapping[e.key.keysym.scancode]);
@@ -382,53 +466,39 @@ input_poll()
                 {
                     continue;
                 }
-                input.pressed_keys[mouse_mapping[e.button.button]] = true;
+
                 logging_trace("%d\n", e.button.button);
+                key_down(mouse_mapping[e.button.button]);
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (e.button.button >= MAX_MOUSE_BUTTONS)
                 {
                     continue;
                 }
-                input.pressed_keys[mouse_mapping[e.button.button]] = false;
+                key_up(mouse_mapping[e.button.button]);
                 break;
             case SDL_MOUSEMOTION:
-                if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
-                {
-                    program.pointers[0].x += e.motion.xrel;
-                    program.pointers[0].y -= e.motion.yrel;
-                    program.pointers[1].x += e.motion.xrel;
-                    program.pointers[1].y -= e.motion.yrel;
-                }
-                else
-                {
-                    if (input.pressed_keys[KEY_SELECT_CHANNEL1])
-                    {
-                        program.pointers[0].x += e.motion.xrel;
-                        program.pointers[0].y -= e.motion.yrel;
-                    }
-                    if (input.pressed_keys[KEY_SELECT_CHANNEL2])
-                    {
-                        program.pointers[1].x += e.motion.xrel;
-                        program.pointers[1].y -= e.motion.yrel;
-                    }
-                }
-                audio_init_note_frequencies_and_volume();
-
+                mouse_move(e.motion);
                 break;
             case SDL_MOUSEWHEEL:
                 if (input.pressed_keys[KEY_SELECT_CHANNEL1])
                 {
-                    instrument_move_left(&audio.instruments[0], 0.01 * e.wheel.y);
+                    instrument_move_left(
+                            &audio.instruments[0], 0.01 * e.wheel.y
+                    );
                 }
                 else if (input.pressed_keys[KEY_SELECT_CHANNEL2])
                 {
-                    instrument_move_right(&audio.instruments[1], 0.01 * e.wheel.y);
+                    instrument_move_right(
+                            &audio.instruments[1], 0.01 * e.wheel.y
+                    );
                 }
             default:
                 break;
         }
     }
+
+    key_pressing();
 
     if (input.pressed_keys[KEY_EXIT])
     {

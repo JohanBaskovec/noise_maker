@@ -74,6 +74,8 @@ note_play_new(struct note *note)
     {
         note->delta[i] = 0;
         note->f_delta[i] = 0;
+        note->offset[i] = rand() % SAMPLE_RATE;
+        note->phase_accumulator[i] = note->offset[i];
     }
 
     double base_frequency = 1000 * note->instrument->frequency_percent;
@@ -130,11 +132,25 @@ generate_sample(struct note *note)
     int64_t sample = 0;
     for (int i = 0; i < note->instrument->parts; i++)
     {
-        sample += generate_sample_part(
-                note
-                , note->phase_accumulator[i]
-                , note->volumes_per_part[i] * note->volume
-        );
+        if (note->instrument->use_custom_shape)
+        {
+            double divider = (M_PI * 2 * 100);
+            int phase_accumulator = (int)(note->phase_accumulator[i] * 100);
+            int b = (int)divider; //(int)((2 * M_PI * 100));
+            double percent_shape = ((phase_accumulator % b) / divider);
+            int sample_index = (int) (DRAW_SPACE_WIDTH * percent_shape);
+            int sound_at_index = note->instrument->sound_shape[sample_index] - (DRAW_SPACE_HEIGHT / 2);
+            double sound_normalized = sound_at_index / (double)DRAW_SPACE_HEIGHT;
+            sample += (int64_t)(sound_normalized * (MAX_SAMPLE_VALUE * note->volumes_per_part[i] * note->volume));
+        }
+        else
+        {
+            sample += generate_sample_part(
+                    note
+                    , note->phase_accumulator[i]
+                    , note->volumes_per_part[i] * note->volume
+            );
+        }
         note->phase_accumulator[i] += note->delta[i];
         if (fabs(note->instant_frequency[i] - note->target_frequency[i]) >
             0.001)

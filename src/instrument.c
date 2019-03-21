@@ -1,5 +1,6 @@
 #include "instrument.h"
 #include "logging.h"
+#include <math.h>
 
 void
 instrument_init(
@@ -17,6 +18,14 @@ instrument_init(
         note_init(note, instrument, i);
         note->max_volume.data[0] = instrument->volume_panning.data[0];
         note->max_volume.data[1] = instrument->volume_panning.data[1];
+    }
+
+    instrument->use_custom_shape = true;
+    double delta = (2 * M_PI) / DRAW_SPACE_WIDTH;
+    for (int x = 0; x < DRAW_SPACE_WIDTH; x++)
+    {
+        instrument->sound_shape[x] = sin(delta * x) * (DRAW_SPACE_HEIGHT / 2) +
+                                     (DRAW_SPACE_HEIGHT / 2);
     }
 }
 
@@ -96,11 +105,9 @@ instrument_generate_sample(
     {
         if (instrument->notes[i].on)
         {
-            sample += note_create_sample(&instrument->notes[i]);
+            sample += (note_create_sample(&instrument->notes[i]));
         }
     }
-
-
     samples->data[0] += (int64_t) (((int16_t) sample) *
                                    instrument->volume_panning.data[0]);
     samples->data[1] += (int64_t) (((int16_t) sample) *

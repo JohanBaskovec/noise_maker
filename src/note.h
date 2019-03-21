@@ -7,7 +7,7 @@
 #include "data_structure/double_pair.h"
 #include "data_structure/int64_t_pair.h"
 
-#define MAX_NOTE_PARTS 10
+#define MAX_NOTE_PARTS 5
 
 struct instrument;
 
@@ -52,6 +52,8 @@ struct note
     // note index on the instrument (from lower to higher pitch)
     int index;
     struct instrument *instrument;
+
+    int offset[MAX_NOTE_PARTS];
 
     double base_frequency[MAX_NOTE_PARTS];
 

@@ -28,17 +28,21 @@ renderer_init()
         logging_trace("SDL initialized.\n");
     }
 
+    /*
     renderer.window_size.x = 1000;
     renderer.window_size.y = 1000;
-
+*/
     window = SDL_CreateWindow(
             "SDL2 test"
             , 0
             , 0
-            , renderer.window_size.x
-            , renderer.window_size.y
-            , SDL_WINDOW_OPENGL
+            , 1920
+            , 1080
+            , SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP
     );
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GetWindowSize(window, &renderer.window_size.x, &renderer.window_size.y);
+    logging_trace("%d %d", renderer.window_size.x, renderer.window_size.y);
     if (window == 0)
     {
         logging_trace(
@@ -70,14 +74,24 @@ renderer_init()
     glLoadIdentity();
     glOrtho(0.0, renderer.window_size.x, 0.0, renderer.window_size.y, 0, 1);
     glClearColor(0, 0, 0, 1);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
 
     logging_trace("Renderer initialized.\n");
 
     return RENDERER_INIT_ERROR_NONE;
 }
 
+void
+draw_box(struct box *box)
+{
+    glBegin(GL_POLYGON);
+    glVertex2d(box->left, box->bottom);
+    glVertex2d(box->right, box->bottom);
+    glVertex2d(box->right, box->top);
+    glVertex2d(box->left, box->top);
+    glEnd();
+}
 enum RENDERER_RENDERING_ERROR
 renderer_render()
 {
@@ -106,7 +120,35 @@ renderer_render()
     glVertex2d(program.pointers[1].x + cursor_size, program.pointers[1].y + cursor_size);
     glVertex2d(program.pointers[1].x - cursor_size, program.pointers[1].y + cursor_size);
     glEnd();
-    
+
+
+
+    glBegin(GL_LINES);
+    glColor3f(.3, 0, 0);
+    // sound drawing separator
+    glVertex2d(0, PLAY_SPACE_HEIGHT);
+    glVertex2d(renderer.window_size.x, PLAY_SPACE_HEIGHT);
+    glEnd();
+
+    draw_box(&program.sound_drawing_canvas[0].box);
+    draw_box(&program.sound_drawing_canvas[1].box);
+
+    glBegin(GL_POINTS);
+    glColor3f(0.0, 1.0, 1.0);
+
+    for (int i = 0; i < 2; ++i)
+    {
+        struct instrument instrument = audio.instruments[i];
+        struct box canvas = program.sound_drawing_canvas[i].box;
+        for (int x = 0; x < DRAW_SPACE_WIDTH; ++x)
+        {
+            int y = instrument.sound_shape[x];
+            glVertex2d(x + canvas.left, y + canvas.bottom);
+        }
+    }
+
+    glEnd();
+
     SDL_GL_SwapWindow(window);
 
     return RENDERER_RENDERING_ERROR_NONE;

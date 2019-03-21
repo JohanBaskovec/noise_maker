@@ -192,8 +192,8 @@ audio_init_note_frequencies_and_volume()
     {
         instrument_set_volume_and_frequency(
                 &audio.instruments[i],
-                (program.pointers[i].y / (renderer.window_size.y * 1.0)) * 5.0,
-                program.pointers[i].x / (renderer.window_size.x * 1.0)
+                (program.pointers[i].y / (renderer.window_size.y * 1.0)) * 8.0,
+                program.pointers[i].x / (renderer.window_size.x * 1.0) * 1.1
         );
     }
 }

@@ -6,8 +6,8 @@
 #include "note.h"
 #include "data_structure/double_pair.h"
 #include "data_structure/int64_t_pair.h"
+#include "constants.h"
 
-#define NOTES_PER_INSTRUMENT 15
 struct instrument
 {
     // these notes are mapped to the keyboard
@@ -24,7 +24,13 @@ struct instrument
     // number of parts per note
     // the maximum for this value is MAX_NOTE_PARTS
     int parts;
+
+    bool use_custom_shape;
+
+    int sound_shape[DRAW_SPACE_WIDTH];
 };
+
+typedef struct instrument* not_owned_instrument_pointer;
 
 void
 instrument_init(
