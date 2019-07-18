@@ -1,4 +1,5 @@
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_timer.h>
 #include "input.h"
 #include "program.h"
 #include "logging.h"
@@ -70,6 +71,13 @@ input_init()
 
     input.mouse_delta.x = 0;
     input.mouse_delta.y = 0;
+
+    input.move_left_multiplier = 0;
+    input.move_right_multiplier = 0;
+
+    unsigned int current_time = SDL_GetTicks();
+    input.last_move_left = 0;
+    input.last_move_right = 0;
 }
 
 void
@@ -451,8 +459,15 @@ mouse_move(SDL_MouseMotionEvent e)
 }
 
 void
+input_init_move_multiplier() {
+    input.move_right_multiplier = 0;
+    input.move_left_multiplier = 0;
+}
+
+void
 input_poll()
 {
+    unsigned int current_time = SDL_GetTicks();
     for (int i = 0; i < KEY_ALL; i++)
     {
         input.previous_pressed_keys[i] = input.pressed_keys[i];
@@ -497,14 +512,31 @@ input_poll()
                 if (input.pressed_keys[KEY_SELECT_CHANNEL1])
                 {
                     instrument_move_left(
-                            &audio.instruments[0], 0.01 * e.wheel.y
+                            &audio.instruments[0], 0.01 * e.wheel.y * input.move_left_multiplier
                     );
+
+                    input.move_left_multiplier = 1 / ((current_time - input.last_move_left) / 1000.0);
+                    input.last_move_left = current_time;
                 }
                 else if (input.pressed_keys[KEY_SELECT_CHANNEL2])
                 {
                     instrument_move_right(
-                            &audio.instruments[1], 0.01 * e.wheel.y
+                            &audio.instruments[1], 0.01 * e.wheel.y * input.move_right_multiplier
                     );
+                    input.move_left_multiplier = 1 / ((current_time - input.last_move_right) / 1000.0);
+                    input.last_move_right = current_time;
+                }
+                if (input.move_right_multiplier > 5) {
+                    input.move_right_multiplier = 5;
+                }
+                if (input.move_left_multiplier > 5) {
+                    input.move_left_multiplier = 5;
+                }
+                if (input.move_right_multiplier < 1) {
+                    input.move_right_multiplier = 1;
+                }
+                if (input.move_left_multiplier < 1) {
+                    input.move_left_multiplier = 1;
                 }
             default:
                 break;

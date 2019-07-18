@@ -58,6 +58,10 @@ enum key {
 struct input {
     struct vec2i mouse_position;
     struct vec2i mouse_delta;
+    double move_right_multiplier;
+    double move_left_multiplier;
+    unsigned int last_move_left;
+    unsigned int last_move_right;
     bool pressed_keys[KEY_ALL];
     bool previous_pressed_keys[KEY_ALL];
     bool is_drawing;

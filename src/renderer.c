@@ -134,8 +134,7 @@ renderer_render()
     draw_box(&program.sound_drawing_canvas[1].box);
 
 
-
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; i < NUMBER_INSTRUMENTS; ++i)
     {
         glBegin(GL_POINTS);
         glColor3f(0.0, 1.0, 1.0);
