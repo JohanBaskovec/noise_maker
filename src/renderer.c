@@ -133,19 +133,31 @@ renderer_render()
     draw_box(&program.sound_drawing_canvas[0].box);
     draw_box(&program.sound_drawing_canvas[1].box);
 
-    glBegin(GL_POINTS);
-    glColor3f(0.0, 1.0, 1.0);
+
 
     for (int i = 0; i < 2; ++i)
     {
+        glBegin(GL_POINTS);
+        glColor3f(0.0, 1.0, 1.0);
+
         struct instrument instrument = audio.instruments[i];
         struct box canvas = program.sound_drawing_canvas[i].box;
         for (int x = 0; x < DRAW_SPACE_WIDTH; ++x)
         {
-            int y = instrument.sound_shape[x];
+            int y = instrument.current_sound_shape[x];
+
             glVertex2d(x + canvas.left, y + canvas.bottom);
         }
+        glEnd();
+
+        glColor3f(1.0, 0, 0);
+
+        for (int j = 0; j < MAX_SOUND_SHAPES_PER_INSTRUMENT * 2 ; ++j)
+        {
+            draw_box(&program.sound_drawing_buttons[j]);
+        }
     }
+
 
     glEnd();
 

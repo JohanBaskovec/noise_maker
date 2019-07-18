@@ -139,7 +139,7 @@ generate_sample(struct note *note)
             int b = (int)divider; //(int)((2 * M_PI * 100));
             double percent_shape = ((phase_accumulator % b) / divider);
             int sample_index = (int) (DRAW_SPACE_WIDTH * percent_shape);
-            int sound_at_index = note->instrument->sound_shape[sample_index] - (DRAW_SPACE_HEIGHT / 2);
+            int sound_at_index = note->instrument->current_sound_shape[sample_index] - (DRAW_SPACE_HEIGHT / 2);
             double sound_normalized = sound_at_index / (double)DRAW_SPACE_HEIGHT;
             sample += (int64_t)(sound_normalized * (MAX_SAMPLE_VALUE * note->volumes_per_part[i] * note->volume));
         }

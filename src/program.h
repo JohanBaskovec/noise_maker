@@ -13,6 +13,7 @@ struct program
     bool quit;
     struct vec2i pointers[NUMBER_INSTRUMENTS];
     struct sound_drawing_canvas sound_drawing_canvas[NUMBER_INSTRUMENTS];
+    struct box sound_drawing_buttons[MAX_SOUND_SHAPES_PER_INSTRUMENT * 2];
     struct box playing_area_box;
 };
 

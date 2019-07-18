@@ -27,7 +27,9 @@ struct instrument
 
     bool use_custom_shape;
 
-    int sound_shape[DRAW_SPACE_WIDTH];
+    int sound_shape[MAX_SOUND_SHAPES_PER_INSTRUMENT][DRAW_SPACE_WIDTH];
+
+    int *current_sound_shape;
 };
 
 typedef struct instrument* not_owned_instrument_pointer;

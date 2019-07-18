@@ -22,10 +22,19 @@ instrument_init(
 
     instrument->use_custom_shape = true;
     double delta = (2 * M_PI) / DRAW_SPACE_WIDTH;
-    for (int x = 0; x < DRAW_SPACE_WIDTH; x++)
+    for (int j = 0; j < MAX_SOUND_SHAPES_PER_INSTRUMENT; ++j)
     {
-        instrument->sound_shape[x] = sin(delta * x) * (DRAW_SPACE_HEIGHT / 2) +
-                                     (DRAW_SPACE_HEIGHT / 2);
+        for (int x = 0; x < DRAW_SPACE_WIDTH; x++)
+        {
+            instrument->sound_shape[j][x] =
+                    (int) (sin(delta * x) * (DRAW_SPACE_HEIGHT / 2) +
+                           (DRAW_SPACE_HEIGHT / 2));
+        }
+    }
+    instrument->current_sound_shape = instrument->sound_shape[0];
+    for (int k = 0; k < DRAW_SPACE_WIDTH; ++k)
+    {
+        printf("%d\n", instrument->current_sound_shape[k]);
     }
 }
 

@@ -258,6 +258,19 @@ key_down(enum key key)
         case KEY_NOTE_RIGHT_15:
             instrument_play(&audio.instruments[1], 14);
             break;
+        case KEY_SELECT_CHANNEL1:
+            for (int i = 0 ; i < NUMBER_INSTRUMENTS ; i++)
+            {
+                for (int j = 0; j < MAX_SOUND_SHAPES_PER_INSTRUMENT; ++j)
+                {
+                    if (box_contain_vec2i(&program.sound_drawing_buttons[j + (i * MAX_SOUND_SHAPES_PER_INSTRUMENT)], &input.mouse_position))
+                    {
+                        printf("Selected button %d of instrument %d\n", j, i);
+                        audio.instruments[i].current_sound_shape = audio.instruments[i].sound_shape[j];
+                    }
+                }
+            }
+            break;
 
     }
     logging_trace("key down");
@@ -380,7 +393,7 @@ draw_in_canvas(struct sound_drawing_canvas *canvas)
         {
             continue;
         }
-        canvas->instrument->sound_shape[x] = position_in_canvas.y;
+        canvas->instrument->current_sound_shape[x] = position_in_canvas.y;
     }
 }
 

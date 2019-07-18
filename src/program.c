@@ -15,16 +15,36 @@ program_init()
     program.pointers[1].y = 0;
 
     program.sound_drawing_canvas[0].instrument = &audio.instruments[0];
-    program.sound_drawing_canvas[0].box.bottom = PLAY_SPACE_HEIGHT;
+    program.sound_drawing_canvas[0].box.bottom = PLAY_SPACE_HEIGHT + BUTTONS_HEIGHT;
     program.sound_drawing_canvas[0].box.left = 0;
     box_set_height(&program.sound_drawing_canvas[0].box, DRAW_SPACE_HEIGHT);
     box_set_width(&program.sound_drawing_canvas[0].box, DRAW_SPACE_WIDTH);
 
+    for (int i = 0; i < MAX_SOUND_SHAPES_PER_INSTRUMENT; ++i)
+    {
+        int width = DRAW_SPACE_WIDTH / MAX_SOUND_SHAPES_PER_INSTRUMENT - 2;
+        program.sound_drawing_buttons[i].bottom = PLAY_SPACE_HEIGHT;
+        program.sound_drawing_buttons[i].left = i * (width) + (1 * i);
+        box_set_height(&program.sound_drawing_buttons[i], BUTTONS_HEIGHT);
+        box_set_width(&program.sound_drawing_buttons[i], width);
+    }
+
     program.sound_drawing_canvas[1].instrument = &audio.instruments[1];
-    program.sound_drawing_canvas[1].box.bottom = PLAY_SPACE_HEIGHT;
+    program.sound_drawing_canvas[1].box.bottom = PLAY_SPACE_HEIGHT + BUTTONS_HEIGHT;
     program.sound_drawing_canvas[1].box.left = renderer.window_size.x / 2;
     box_set_height(&program.sound_drawing_canvas[1].box, DRAW_SPACE_HEIGHT);
     box_set_width(&program.sound_drawing_canvas[1].box, DRAW_SPACE_WIDTH);
+
+    int index_for_canvas = 0;
+    for (int i = MAX_SOUND_SHAPES_PER_INSTRUMENT; i < MAX_SOUND_SHAPES_PER_INSTRUMENT * 2; ++i)
+    {
+        int width = DRAW_SPACE_WIDTH / MAX_SOUND_SHAPES_PER_INSTRUMENT - 2;
+        program.sound_drawing_buttons[i].bottom = PLAY_SPACE_HEIGHT;
+        program.sound_drawing_buttons[i].left = index_for_canvas * (width) + program.sound_drawing_canvas[1].box.left +  + (1 * index_for_canvas);
+        box_set_height(&program.sound_drawing_buttons[i], BUTTONS_HEIGHT);
+        box_set_width(&program.sound_drawing_buttons[i], width);
+        ++index_for_canvas;
+    }
 
     program.playing_area_box.left = 0;
     program.playing_area_box.bottom = 0;
