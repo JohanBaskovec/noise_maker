@@ -15,6 +15,8 @@ struct program
     struct sound_drawing_canvas sound_drawing_canvas[NUMBER_INSTRUMENTS];
     struct box sound_drawing_buttons[MAX_SOUND_SHAPES_PER_INSTRUMENT * 2];
     struct box playing_area_box;
+    int decay_frames;
+    int attack_frames;
 };
 
 extern struct program program;

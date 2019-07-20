@@ -196,4 +196,6 @@ audio_init_note_frequencies_and_volume()
                 program.pointers[i].x / (renderer.window_size.x * 1.0) * 1.1
         );
     }
+    program.attack_frames = program.pointers[1].y + 1;
+    program.decay_frames = program.pointers[1].x + 1;
 }

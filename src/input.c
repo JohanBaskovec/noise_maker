@@ -34,21 +34,27 @@ input_init()
     key_mapping[SDL_SCANCODE_C] = KEY_NOTE_LEFT_13;
     key_mapping[SDL_SCANCODE_V] = KEY_NOTE_LEFT_14;
     key_mapping[SDL_SCANCODE_B] = KEY_NOTE_LEFT_15;
-    key_mapping[SDL_SCANCODE_Y] = KEY_NOTE_RIGHT_1;
-    key_mapping[SDL_SCANCODE_U] = KEY_NOTE_RIGHT_2;
-    key_mapping[SDL_SCANCODE_I] = KEY_NOTE_RIGHT_3;
-    key_mapping[SDL_SCANCODE_O] = KEY_NOTE_RIGHT_4;
-    key_mapping[SDL_SCANCODE_P] = KEY_NOTE_RIGHT_5;
-    key_mapping[SDL_SCANCODE_H] = KEY_NOTE_RIGHT_6;
-    key_mapping[SDL_SCANCODE_J] = KEY_NOTE_RIGHT_7;
-    key_mapping[SDL_SCANCODE_K] = KEY_NOTE_RIGHT_8;
-    key_mapping[SDL_SCANCODE_L] = KEY_NOTE_RIGHT_9;
-    key_mapping[SDL_SCANCODE_SEMICOLON] = KEY_NOTE_RIGHT_10;
-    key_mapping[SDL_SCANCODE_N] = KEY_NOTE_RIGHT_11;
-    key_mapping[SDL_SCANCODE_M] = KEY_NOTE_RIGHT_12;
-    key_mapping[SDL_SCANCODE_COMMA] = KEY_NOTE_RIGHT_13;
-    key_mapping[SDL_SCANCODE_PERIOD] = KEY_NOTE_RIGHT_14;
-    key_mapping[SDL_SCANCODE_SLASH] = KEY_NOTE_RIGHT_15;
+    key_mapping[SDL_SCANCODE_6] = SOUND_SHAPE_SELECTOR_1;
+    key_mapping[SDL_SCANCODE_7] = SOUND_SHAPE_SELECTOR_2;
+    key_mapping[SDL_SCANCODE_8] = SOUND_SHAPE_SELECTOR_3;
+    key_mapping[SDL_SCANCODE_9] = SOUND_SHAPE_SELECTOR_4;
+    key_mapping[SDL_SCANCODE_0] = SOUND_SHAPE_SELECTOR_5;
+    key_mapping[SDL_SCANCODE_Y] = SOUND_SHAPE_SELECTOR_6;
+    key_mapping[SDL_SCANCODE_U] = SOUND_SHAPE_SELECTOR_7;
+    key_mapping[SDL_SCANCODE_I] = SOUND_SHAPE_SELECTOR_8;
+    key_mapping[SDL_SCANCODE_O] = SOUND_SHAPE_SELECTOR_9;
+    key_mapping[SDL_SCANCODE_P] = SOUND_SHAPE_SELECTOR_11;
+    key_mapping[SDL_SCANCODE_H] = SOUND_SHAPE_SELECTOR_12;
+    key_mapping[SDL_SCANCODE_J] = SOUND_SHAPE_SELECTOR_13;
+    key_mapping[SDL_SCANCODE_K] = SOUND_SHAPE_SELECTOR_14;
+    key_mapping[SDL_SCANCODE_L] = SOUND_SHAPE_SELECTOR_15;
+    key_mapping[SDL_SCANCODE_SEMICOLON] = SOUND_SHAPE_SELECTOR_16;
+    key_mapping[SDL_SCANCODE_N] = SOUND_SHAPE_SELECTOR_17;
+    key_mapping[SDL_SCANCODE_M] = SOUND_SHAPE_SELECTOR_18;
+    key_mapping[SDL_SCANCODE_COMMA] = SOUND_SHAPE_SELECTOR_19;
+    key_mapping[SDL_SCANCODE_PERIOD] = SOUND_SHAPE_SELECTOR_20;
+    key_mapping[SDL_SCANCODE_SLASH] = SOUND_SHAPE_SELECTOR_21;
+
     key_mapping[SDL_SCANCODE_ESCAPE] = KEY_EXIT;
     key_mapping[SDL_SCANCODE_1] = KEY_ONE_PART;
     key_mapping[SDL_SCANCODE_2] = KEY_TWO_PART;
@@ -221,51 +227,6 @@ key_down(enum key key)
         case KEY_NOTE_LEFT_15:
             instrument_play(&audio.instruments[0], 14);
             break;
-        case KEY_NOTE_RIGHT_1:
-            instrument_play(&audio.instruments[1], 0);
-            break;
-        case KEY_NOTE_RIGHT_2:
-            instrument_play(&audio.instruments[1], 1);
-            break;
-        case KEY_NOTE_RIGHT_3:
-            instrument_play(&audio.instruments[1], 2);
-            break;
-        case KEY_NOTE_RIGHT_4:
-            instrument_play(&audio.instruments[1], 3);
-            break;
-        case KEY_NOTE_RIGHT_5:
-            instrument_play(&audio.instruments[1], 5);
-            break;
-        case KEY_NOTE_RIGHT_6:
-            instrument_play(&audio.instruments[1], 5);
-            break;
-        case KEY_NOTE_RIGHT_7:
-            instrument_play(&audio.instruments[1], 6);
-            break;
-        case KEY_NOTE_RIGHT_8:
-            instrument_play(&audio.instruments[1], 7);
-            break;
-        case KEY_NOTE_RIGHT_9:
-            instrument_play(&audio.instruments[1], 8);
-            break;
-        case KEY_NOTE_RIGHT_10:
-            instrument_play(&audio.instruments[1], 9);
-            break;
-        case KEY_NOTE_RIGHT_11:
-            instrument_play(&audio.instruments[1], 10);
-            break;
-        case KEY_NOTE_RIGHT_12:
-            instrument_play(&audio.instruments[1], 11);
-            break;
-        case KEY_NOTE_RIGHT_13:
-            instrument_play(&audio.instruments[1], 12);
-            break;
-        case KEY_NOTE_RIGHT_14:
-            instrument_play(&audio.instruments[1], 13);
-            break;
-        case KEY_NOTE_RIGHT_15:
-            instrument_play(&audio.instruments[1], 14);
-            break;
         case KEY_SELECT_CHANNEL1:
             for (int i = 0 ; i < NUMBER_INSTRUMENTS ; i++)
             {
@@ -278,6 +239,69 @@ key_down(enum key key)
                     }
                 }
             }
+            break;
+        case SOUND_SHAPE_SELECTOR_1:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[0];
+            break;
+        case SOUND_SHAPE_SELECTOR_2:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[1];
+            break;
+        case SOUND_SHAPE_SELECTOR_3:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[2];
+            break;
+        case SOUND_SHAPE_SELECTOR_4:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[3];
+            break;
+        case SOUND_SHAPE_SELECTOR_5:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[4];
+            break;
+        case SOUND_SHAPE_SELECTOR_6:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[5];
+            break;
+        case SOUND_SHAPE_SELECTOR_7:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[6];
+            break;
+        case SOUND_SHAPE_SELECTOR_8:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[7];
+            break;
+        case SOUND_SHAPE_SELECTOR_9:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[8];
+            break;
+        case SOUND_SHAPE_SELECTOR_10:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[9];
+            break;
+        case SOUND_SHAPE_SELECTOR_11:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[10];
+            break;
+        case SOUND_SHAPE_SELECTOR_12:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[11];
+            break;
+        case SOUND_SHAPE_SELECTOR_13:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[12];
+            break;
+        case SOUND_SHAPE_SELECTOR_14:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[13];
+            break;
+        case SOUND_SHAPE_SELECTOR_15:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[14];
+            break;
+        case SOUND_SHAPE_SELECTOR_16:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[15];
+            break;
+        case SOUND_SHAPE_SELECTOR_17:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[16];
+            break;
+        case SOUND_SHAPE_SELECTOR_18:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[17];
+            break;
+        case SOUND_SHAPE_SELECTOR_19:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[18];
+            break;
+        case SOUND_SHAPE_SELECTOR_20:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[19];
+            break;
+        case SOUND_SHAPE_SELECTOR_21:
+            audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[20];
             break;
 
     }
@@ -334,51 +358,6 @@ key_up(enum key key)
             break;
         case KEY_NOTE_LEFT_15:
             instrument_release_note(&audio.instruments[0], 14);
-            break;
-        case KEY_NOTE_RIGHT_1:
-            instrument_release_note(&audio.instruments[1], 0);
-            break;
-        case KEY_NOTE_RIGHT_2:
-            instrument_release_note(&audio.instruments[1], 1);
-            break;
-        case KEY_NOTE_RIGHT_3:
-            instrument_release_note(&audio.instruments[1], 2);
-            break;
-        case KEY_NOTE_RIGHT_4:
-            instrument_release_note(&audio.instruments[1], 3);
-            break;
-        case KEY_NOTE_RIGHT_5:
-            instrument_release_note(&audio.instruments[1], 5);
-            break;
-        case KEY_NOTE_RIGHT_6:
-            instrument_release_note(&audio.instruments[1], 5);
-            break;
-        case KEY_NOTE_RIGHT_7:
-            instrument_release_note(&audio.instruments[1], 6);
-            break;
-        case KEY_NOTE_RIGHT_8:
-            instrument_release_note(&audio.instruments[1], 7);
-            break;
-        case KEY_NOTE_RIGHT_9:
-            instrument_release_note(&audio.instruments[1], 8);
-            break;
-        case KEY_NOTE_RIGHT_10:
-            instrument_release_note(&audio.instruments[1], 9);
-            break;
-        case KEY_NOTE_RIGHT_11:
-            instrument_release_note(&audio.instruments[1], 10);
-            break;
-        case KEY_NOTE_RIGHT_12:
-            instrument_release_note(&audio.instruments[1], 11);
-            break;
-        case KEY_NOTE_RIGHT_13:
-            instrument_release_note(&audio.instruments[1], 12);
-            break;
-        case KEY_NOTE_RIGHT_14:
-            instrument_release_note(&audio.instruments[1], 13);
-            break;
-        case KEY_NOTE_RIGHT_15:
-            instrument_release_note(&audio.instruments[1], 14);
             break;
         case KEY_SELECT_CHANNEL1:
             input.is_drawing = false;

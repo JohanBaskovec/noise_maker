@@ -33,6 +33,8 @@ struct note
 
     double volume;
 
+    double volume_before_attenuation;
+
     // time in frames since the note has been pressed
     int timer_frames;
 
@@ -68,6 +70,8 @@ struct note
     double phase_accumulator[MAX_NOTE_PARTS];
 
     double sweep_duration_seconds;
+    double volume_decrease_per_frame;
+    double volume_increase_per_frame;
 };
 
 void

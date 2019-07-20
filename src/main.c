@@ -18,10 +18,11 @@ main()
     audio_init();
     input_init();
     FILE *f = fopen("instrument0", "rb");
-    fread(audio.instruments[0].sound_shape, sizeof(int), sizeof(audio.instruments[0].sound_shape), f);
+    int sizeoflol = sizeof(audio.instruments[0].sound_shape);
+    fread(audio.instruments[0].sound_shape, sizeof(char), sizeof(audio.instruments[0].sound_shape), f);
     fclose(f);
     f = fopen("instrument1", "rb");
-    fread(audio.instruments[1].sound_shape, sizeof(int), sizeof(audio.instruments[1].sound_shape), f);
+    fread(audio.instruments[1].sound_shape, sizeof(char), sizeof(audio.instruments[1].sound_shape), f);
     fclose(f);
 
     logging_trace("Main loop started...\n");

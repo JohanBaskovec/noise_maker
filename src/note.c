@@ -2,6 +2,7 @@
 #include "note.h"
 #include "audio.h"
 #include "logging.h"
+#include "program.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -16,6 +17,8 @@ note_init(struct note *note, struct instrument *instrument, int index)
     note->attack_duration_frame = MS_TO_FRAMES(100);
     note->decay_duration_frames = MS_TO_FRAMES(100);
     note->sweep_duration_seconds = 0.01;
+    note->volume_decrease_per_frame = 0;
+    note->volume_before_attenuation = 0;
 }
 
 double
@@ -66,6 +69,11 @@ note_set_target_frequency(struct note *note)
 void
 note_play_new(struct note *note)
 {
+    int attack_duration = (rand() % program.attack_frames) + 20;
+    note->attack_duration_frame = MS_TO_FRAMES(attack_duration);
+    int decay_duration = (rand() % program.decay_frames) + 20;
+    note->decay_duration_frames = MS_TO_FRAMES(decay_duration);
+    note->volume_increase_per_frame = 1.0 / note->attack_duration_frame;
     note->on = true;
     note->timer_frames = 0;
     note->released = false;
@@ -117,6 +125,7 @@ note_stop(struct note *note)
 {
     note->released = true;
     note->released_on_frame = note->timer_frames;
+    note->volume_decrease_per_frame = note->volume_before_attenuation / note->decay_duration_frames;
 }
 
 
@@ -168,13 +177,9 @@ note_create_sample(struct note *note)
 {
     if (note->released)
     {
-        if (note->timer_frames <
-            note->released_on_frame + note->decay_duration_frames)
+        if (note->volume_before_attenuation > 0)
         {
-            note->volume = 1.0 -
-                           ((note->timer_frames -
-                             note->released_on_frame) /
-                            (note->decay_duration_frames * 1.0));
+            note->volume_before_attenuation -= note->volume_decrease_per_frame;
         }
         else
         {
@@ -184,18 +189,15 @@ note_create_sample(struct note *note)
     }
     else
     {
-        if (note->attack_duration_frame > note->timer_frames)
+        if (note->volume_before_attenuation < 1.0)
         {
-            note->volume =
-                    note->timer_frames / (note->attack_duration_frame * 1.0);
-        }
-        else
-        {
-            note->volume = 1.0;
+            note->volume_before_attenuation += note->volume_increase_per_frame;
+                    //note->timer_frames / (note->attack_duration_frame * 1.0);
+            printf("%f\n", note->volume);
         }
     }
 
-    note->volume *= note->instrument->volume_percent;
+    note->volume = note->volume_before_attenuation * note->instrument->volume_percent;
 
     int64_t sample = generate_sample(note);
     ++note->timer_frames;

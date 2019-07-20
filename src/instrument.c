@@ -32,10 +32,6 @@ instrument_init(
         }
     }
     instrument->current_sound_shape = instrument->sound_shape[0];
-    for (int k = 0; k < DRAW_SPACE_WIDTH; ++k)
-    {
-        printf("%d\n", instrument->current_sound_shape[k]);
-    }
 }
 
 void
