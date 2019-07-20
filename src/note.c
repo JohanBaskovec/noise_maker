@@ -28,7 +28,7 @@ note_compute_part_frequency(
         , int part_index
 )
 {
-    double frequency_offset_rand = (rand() % 100) / 100.0;
+    double frequency_offset_rand = program.frequency_offset / 100.0;
     double frequency_offset =
             (part_index + 1) * 300 * note->instrument->frequency_percent *
             frequency_offset_rand;

@@ -62,6 +62,7 @@ enum key {
 
     KEY_DRAW_MODE_1,
     KEY_ALL,
+    KEY_CHANGE_FREQUENCY_OFFSET,
     KEY_NONE
 };
 

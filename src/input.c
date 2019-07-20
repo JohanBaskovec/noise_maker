@@ -62,6 +62,7 @@ input_init()
     key_mapping[SDL_SCANCODE_4] = KEY_FOUR_PART;
     key_mapping[SDL_SCANCODE_5] = KEY_FIVE_PART;
     key_mapping[SDL_SCANCODE_F1] = KEY_DRAW_MODE_0;
+    key_mapping[SDL_SCANCODE_TAB] = KEY_CHANGE_FREQUENCY_OFFSET;
 
 
     mouse_mapping[0] = KEY_NONE;
@@ -302,6 +303,9 @@ key_down(enum key key)
             break;
         case SOUND_SHAPE_SELECTOR_21:
             audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[20];
+            break;
+        case KEY_CHANGE_FREQUENCY_OFFSET:
+            program.frequency_offset = rand() % 100;
             break;
 
     }

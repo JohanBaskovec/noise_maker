@@ -17,6 +17,7 @@ struct program
     struct box playing_area_box;
     int decay_frames;
     int attack_frames;
+    double frequency_offset;
 };
 
 extern struct program program;
