@@ -74,6 +74,7 @@ audio_init()
     audio_data.circular_buffer = malloc(TABLE_SIZE * sizeof(int16_t));
     audio_data.read_end = 0;
     audio_data.write_end = 0;
+    audio.frequency_sweep = 0.01;
 
     PaError err;
     err = Pa_Initialize();

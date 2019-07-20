@@ -63,6 +63,10 @@ input_init()
     key_mapping[SDL_SCANCODE_5] = KEY_FIVE_PART;
     key_mapping[SDL_SCANCODE_F1] = KEY_DRAW_MODE_0;
     key_mapping[SDL_SCANCODE_TAB] = KEY_CHANGE_FREQUENCY_OFFSET;
+    key_mapping[SDL_SCANCODE_LSHIFT] = KEY_INCREASE_FREQUENCY_SWEEP;
+    key_mapping[SDL_SCANCODE_LCTRL] = KEY_DECREASE_FREQUENCY_SWEEP;
+
+    key_mapping[SDL_SCANCODE_TAB] = KEY_CHANGE_FREQUENCY_OFFSET;
 
 
     mouse_mapping[0] = KEY_NONE;
@@ -307,7 +311,6 @@ key_down(enum key key)
         case KEY_CHANGE_FREQUENCY_OFFSET:
             program.frequency_offset = rand() % 100;
             break;
-
     }
     logging_trace("key down");
 }
@@ -430,6 +433,14 @@ key_pressing()
         }
     }
 
+    if (input.pressed_keys[KEY_INCREASE_FREQUENCY_SWEEP]) {
+        audio.frequency_sweep += 0.01;
+        logging_trace("Frequency sweep: %f", audio.frequency_sweep);
+    }
+    if (input.pressed_keys[KEY_DECREASE_FREQUENCY_SWEEP]) {
+        audio.frequency_sweep -= 0.01;
+        logging_trace("Frequency sweep: %f", audio.frequency_sweep);
+    }
 }
 
 void

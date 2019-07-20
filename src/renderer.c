@@ -28,10 +28,6 @@ renderer_init()
         logging_trace("SDL initialized.\n");
     }
 
-    /*
-    renderer.window_size.x = 1000;
-    renderer.window_size.y = 1000;
-*/
     window = SDL_CreateWindow(
             "SDL2 test"
             , 0

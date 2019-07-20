@@ -8,6 +8,7 @@
 struct audio
 {
     struct instrument instruments[NUMBER_INSTRUMENTS];
+    double frequency_sweep;
 };
 
 extern struct audio audio;

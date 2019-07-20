@@ -72,6 +72,7 @@ note_play_new(struct note *note)
     int attack_duration = (rand() % program.attack_frames) + 20;
     note->attack_duration_frame = MS_TO_FRAMES(attack_duration);
     int decay_duration = (rand() % program.decay_frames) + 20;
+    note->sweep_duration_seconds = audio.frequency_sweep;
     note->decay_duration_frames = MS_TO_FRAMES(decay_duration);
     note->volume_increase_per_frame = 1.0 / note->attack_duration_frame;
     note->on = true;
