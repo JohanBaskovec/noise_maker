@@ -148,6 +148,7 @@ int64_t
 generate_sample(struct note *note)
 {
     int64_t sample = 0;
+    double note_average_frequency = 0;
     for (int i = 0; i < note->instrument->parts; i++)
     {
         if (note->instrument->use_custom_shape)
@@ -176,7 +177,11 @@ generate_sample(struct note *note)
             note->instant_frequency[i] += note->f_delta[i];
         }
         note->delta[i] = (M_PI * 2) * note->instant_frequency[i] / SAMPLE_RATE;
+        note_average_frequency += note->instant_frequency[i];
     }
+
+    note_average_frequency /= note->instrument->parts;
+    note->instrument->average_frequency += note_average_frequency;
     return sample;
 }
 

@@ -30,6 +30,10 @@ struct instrument
     int sound_shape[MAX_SOUND_SHAPES_PER_INSTRUMENT][DRAW_SPACE_WIDTH];
 
     int *current_sound_shape;
+
+    double average_frequency;
+
+    double total_notes_volume;
 };
 
 typedef struct instrument* not_owned_instrument_pointer;

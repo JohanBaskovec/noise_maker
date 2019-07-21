@@ -162,10 +162,16 @@ audio_update()
         struct int64_t_pair samples;
         samples.data[0] = 0;
         samples.data[1] = 0;
+        audio.average_frequency = 0;
+        audio.total_volume = 0;
         for (int i = 0; i < NUMBER_INSTRUMENTS; i++)
         {
             instrument_generate_sample(&audio.instruments[i], &samples);
+            audio.average_frequency += audio.instruments[i].average_frequency;
+            audio.total_volume += audio.instruments[i].total_notes_volume;
         }
+        audio.last_sample_total = samples.data[0] + samples.data[1];
+        audio.average_frequency /= NUMBER_INSTRUMENTS;
 
         audio_data.circular_buffer[audio_data.write_end] = (int16_t) samples.data[0];
         ++audio_data.write_end;

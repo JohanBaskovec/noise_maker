@@ -304,6 +304,7 @@ key_up(enum key key)
 void
 draw_in_canvas(struct sound_drawing_canvas *canvas)
 {
+    logging_trace("drawing in canvas!");
     input.is_drawing = true;
     struct vec2i position_in_canvas;
     position_in_canvas.x = input.mouse_position.x - canvas->box.left;
@@ -323,6 +324,7 @@ draw_in_canvas(struct sound_drawing_canvas *canvas)
 void
 key_pressing()
 {
+
     if (!input.is_drawing &&
         box_contain_vec2i(&program.playing_area_box, &input.mouse_position))
     {

@@ -1,5 +1,6 @@
 #include "instrument.h"
 #include "logging.h"
+#include "audio.h"
 #include <math.h>
 #include <assert.h>
 
@@ -134,13 +135,22 @@ instrument_generate_sample(
 )
 {
     int64_t sample = 0;
+    instrument->average_frequency = 0;
+    instrument->total_notes_volume = 0;
 
+    int notes_on = 0;
     for (int i = 0; i < NOTES_PER_INSTRUMENT; i++)
     {
         if (instrument->notes[i].on)
         {
+            notes_on++;
             sample += (note_create_sample(&instrument->notes[i]));
+            instrument->total_notes_volume += instrument->notes[i].volume;
         }
+    }
+    if (notes_on != 0)
+    {
+        instrument->average_frequency /= notes_on;
     }
     samples->data[0] += (int64_t) (((int16_t) sample) *
                                    instrument->volume_panning.data[0]);
