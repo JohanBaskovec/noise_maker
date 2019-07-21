@@ -17,6 +17,7 @@ set(CMAKE_C_STANDARD 11)
 set(SOURCES  src/renderer.h src/renderer.c src/logging.h src/logging.c src/input.h src/input.c src/program.h src/program.c src/audio.h src/audio.c src/note.h src/note.c src/vec.h src/instrument.h src/instrument.c src/data_structure/double_pair.h src/data_structure/int64_t_pair.h src/sound_drawing_canvas.h src/vec.c src/box.h src/box.c test/test_box.h)
 add_executable(noise_maker src/main.c ${SOURCES} src/constants.h)
 target_link_libraries(noise_maker SDL2)
+target_link_libraries(noise_maker SDL2_ttf)
 target_link_libraries(noise_maker ${OPENGL_gl_LIBRARY})
 target_link_libraries(noise_maker m) # C standard maths library
 target_link_libraries(noise_maker portaudio)

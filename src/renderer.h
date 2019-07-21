@@ -11,6 +11,7 @@ enum RENDERER_INIT_ERROR
     , RENDERER_INIT_ERROR_FAILED_SDL_INIT_VIDEO
     , RENDERER_INIT_ERROR_FAILED_SDL_CREATEWINDOW
     , RENDERER_INIT_ERROR_FAILED_SDL_GL_CREATECONTEXT
+    , RENDERER_INIT_ERROR_FAILED_SDL_TTF_LOAD_FONT
     , RENDERER_INIT_ERROR_ALL
 };
 
@@ -20,8 +21,11 @@ enum RENDERER_RENDERING_ERROR
     , RENDERER_RENDERING_ERROR_ALL
 };
 
+struct _TTF_Font;
+
 struct renderer {
     struct vec2i window_size;
+    struct _TTF_Font *font;
 };
 
 extern struct renderer renderer;

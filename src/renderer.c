@@ -4,6 +4,8 @@
 #include "input.h"
 #include <SDL2/SDL.h>
 #include <GL/gl.h>
+#include <SDL/SDL_ttf.h>
+
 
 SDL_Window *window;
 SDL_GLContext gl_context;
@@ -28,6 +30,12 @@ renderer_init()
     else
     {
         logging_trace("SDL initialized.\n");
+    }
+    TTF_Init();
+    renderer.font = TTF_OpenFont("F25_Bank_Printer.ttf", 16);
+    if (!renderer.font) {
+        logging_trace("Error when opening font: %s", TTF_GetError());
+        return RENDERER_INIT_ERROR_FAILED_SDL_TTF_LOAD_FONT;
     }
 
     window = SDL_CreateWindow(
@@ -127,15 +135,6 @@ renderer_render()
     glVertex2d(program.pointers[2].x - cursor_size, program.pointers[2].y + cursor_size);
     glEnd();
 
-    glBegin(GL_POLYGON);
-    glColor3f(1, 0.1, 0.7);
-    glVertex2d(input.mouse_position.x - mouse_pointer_size, input.mouse_position.y - mouse_pointer_size);
-    glVertex2d(input.mouse_position.x + mouse_pointer_size, input.mouse_position.y - mouse_pointer_size);
-    glVertex2d(input.mouse_position.x + mouse_pointer_size, input.mouse_position.y + mouse_pointer_size);
-    glVertex2d(input.mouse_position.x - mouse_pointer_size, input.mouse_position.y + mouse_pointer_size);
-    glEnd();
-
-
     glBegin(GL_LINES);
     glColor3f(.3, 0, 0);
     // sound drawing separator
@@ -169,9 +168,17 @@ renderer_render()
             draw_box(&program.sound_drawing_buttons[j]);
         }
     }
-
-
     glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3f(1, 0.1, 0.7);
+    glVertex2d(input.mouse_position.x - mouse_pointer_size, input.mouse_position.y - mouse_pointer_size);
+    glVertex2d(input.mouse_position.x + mouse_pointer_size, input.mouse_position.y - mouse_pointer_size);
+    glVertex2d(input.mouse_position.x + mouse_pointer_size, input.mouse_position.y + mouse_pointer_size);
+    glVertex2d(input.mouse_position.x - mouse_pointer_size, input.mouse_position.y + mouse_pointer_size);
+    glEnd();
+
+
 
     SDL_GL_SwapWindow(window);
 

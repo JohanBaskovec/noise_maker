@@ -18,7 +18,6 @@ main()
     audio_init();
     input_init();
     FILE *f = fopen("instrument0", "rb");
-    int sizeoflol = sizeof(audio.instruments[0].sound_shape);
     fread(audio.instruments[0].sound_shape, sizeof(char), sizeof(audio.instruments[0].sound_shape), f);
     fclose(f);
 
