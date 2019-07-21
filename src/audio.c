@@ -137,7 +137,7 @@ audio_init()
     {
         logging_trace("Error when starting PortAudio stream.\n");
     }
-    audio_init_note_frequencies_and_volume();
+    audio_init_note_frequencies_and_volume(true);
 
     logging_trace("Audio system initialized.");
 
@@ -183,14 +183,15 @@ audio_update()
 }
 
 void
-audio_init_note_frequencies_and_volume()
+audio_init_note_frequencies_and_volume(bool instantaneous)
 {
     for (int i = 0; i < NUMBER_INSTRUMENTS; i++)
     {
         instrument_set_volume_and_frequency(
-                &audio.instruments[i],
-                (program.pointers[i].y / (renderer.window_size.y * 1.0)) * 8.0,
-                program.pointers[i].x / (renderer.window_size.x * 1.0) * 1.1
+                &audio.instruments[i]
+                , (program.pointers[i].y / (renderer.window_size.y * 1.0)) * 8.0
+                , program.pointers[i].x / (renderer.window_size.x * 1.0) * 1.1
+                , instantaneous
         );
     }
     program.attack_frames = (program.pointers[1].y + 1) * 2;

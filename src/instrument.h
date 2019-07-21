@@ -51,6 +51,7 @@ instrument_set_volume_and_frequency(
         struct instrument *instrument
         , double volume_percent
         , double frequency_percent
+        , bool b
 );
 
 void

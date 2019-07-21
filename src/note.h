@@ -92,5 +92,5 @@ note_create_sample(struct note *note);
  * @param note
  */
 void
-note_set_target_frequency(struct note *note);
+note_set_target_frequency(struct note *note, bool b);
 #endif //NOISE_MAKER_NOTE_H

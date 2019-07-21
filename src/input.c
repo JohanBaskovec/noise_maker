@@ -354,12 +354,12 @@ key_pressing()
         if (input.pressed_keys[KEY_POINTER_1])
         {
             program.pointers[0] = input.mouse_position;
-            audio_init_note_frequencies_and_volume();
+            audio_init_note_frequencies_and_volume(false);
         }
         if (input.pressed_keys[KEY_POINTER_2])
         {
             program.pointers[1] = input.mouse_position;
-            audio_init_note_frequencies_and_volume();
+            audio_init_note_frequencies_and_volume(false);
         }
     }
     else
@@ -381,7 +381,8 @@ key_pressing()
 
     if (input.pressed_keys[KEY_CHANGE_FREQUENCY_OFFSET]) {
         program.frequency_offset = rand() % 100;
-        audio_init_note_frequencies_and_volume();
+
+        audio_init_note_frequencies_and_volume(true);
         logging_trace("Frequency offset: %f", program.frequency_offset);
     }
 }

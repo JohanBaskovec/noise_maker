@@ -29,7 +29,7 @@ void
 audio_set_parts(int channel, int parts);
 
 void
-audio_init_note_frequencies_and_volume();
+audio_init_note_frequencies_and_volume(bool instantaneous);
 
 void
 audio_play_note(int instrument_index, int note_index);

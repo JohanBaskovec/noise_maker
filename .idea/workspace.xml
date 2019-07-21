@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/input.c" line="455" />
+    <bookmark url="file://$PROJECT_DIR$/src/input.c" line="457" />
     <bookmark url="file://$PROJECT_DIR$/src/input.c" line="346" />
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
@@ -18,7 +18,13 @@
   <component name="ChangeListManager">
     <list default="true" id="db44762f-ee07-4d3d-b5ae-6f1168abdca0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/input.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/input.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/instrument.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/instrument.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/instrument.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/instrument.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/note.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/note.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/note.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/note.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,8 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/instrument.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="76" column="14" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+            <state relative-caret-position="462">
+              <caret line="112" column="33" selection-start-line="112" selection-start-column="33" selection-end-line="112" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -59,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/audio.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="165" column="46" selection-start-line="165" selection-start-column="46" selection-end-line="165" selection-end-column="46" />
+            <state relative-caret-position="323">
+              <caret line="189" column="24" selection-start-line="189" selection-start-column="24" selection-end-line="189" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -69,16 +75,25 @@
         <entry file="file://$PROJECT_DIR$/src/instrument.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="791">
-              <caret line="73" column="87" selection-start-line="73" selection-start-column="87" selection-end-line="73" selection-end-column="87" />
+              <caret line="74" column="87" selection-start-line="74" selection-start-column="87" selection-end-line="74" selection-end-column="87" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/note.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/input.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="383" column="71" selection-start-line="383" selection-start-column="71" selection-end-line="383" selection-end-column="71" />
+            <state relative-caret-position="-107">
+              <caret line="361" column="55" selection-start-line="361" selection-start-column="55" selection-end-line="361" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -169,18 +184,18 @@
         <option value="$PROJECT_DIR$/src/sound_drawing_canvas.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/note.h" />
-        <option value="$PROJECT_DIR$/src/note.c" />
         <option value="$PROJECT_DIR$/src/constants.h" />
-        <option value="$PROJECT_DIR$/src/audio.h" />
         <option value="$PROJECT_DIR$/src/input.h" />
         <option value="$PROJECT_DIR$/src/instrument.h" />
         <option value="$PROJECT_DIR$/src/program.h" />
         <option value="$PROJECT_DIR$/src/renderer.c" />
-        <option value="$PROJECT_DIR$/src/audio.c" />
         <option value="$PROJECT_DIR$/src/main.c" />
         <option value="$PROJECT_DIR$/src/program.c" />
+        <option value="$PROJECT_DIR$/src/audio.h" />
+        <option value="$PROJECT_DIR$/src/audio.c" />
         <option value="$PROJECT_DIR$/src/instrument.c" />
         <option value="$PROJECT_DIR$/src/input.c" />
+        <option value="$PROJECT_DIR$/src/note.c" />
       </list>
     </option>
   </component>
@@ -292,7 +307,7 @@
       <workItem from="1553811136006" duration="5723000" />
       <workItem from="1554656906073" duration="9000" />
       <workItem from="1561755950674" duration="3337000" />
-      <workItem from="1563478953740" duration="28568000" />
+      <workItem from="1563478953740" duration="30276000" />
     </task>
     <task id="LOCAL-00001" summary="Fix computation of sound position&#10;&#10;Makes instruments overflow on&#10;both channel.">
       <created>1552613618892</created>
@@ -364,11 +379,18 @@
       <option name="project" value="LOCAL" />
       <updated>1563728001826</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Update sound after updating frequency offset">
+      <created>1563731270084</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1563731270084</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="129173000" />
+    <option name="totallyTimeSpent" value="130881000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="0" width="1922" height="1080" extended-state="6" />
@@ -442,7 +464,8 @@
     <MESSAGE value="Keep changing frequency offset when key is pressed" />
     <MESSAGE value="Move instrument by moving pointer instead of using keyboard" />
     <MESSAGE value="Set frequency sweep duration by moving pointer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set frequency sweep duration by moving pointer" />
+    <MESSAGE value="Update sound after updating frequency offset" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update sound after updating frequency offset" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -682,20 +705,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/note.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/audio.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/assert.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="309">
@@ -706,7 +715,7 @@
     <entry file="file://$PROJECT_DIR$/src/instrument.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="791">
-          <caret line="73" column="87" selection-start-line="73" selection-start-column="87" selection-end-line="73" selection-end-column="87" />
+          <caret line="74" column="87" selection-start-line="74" selection-start-column="87" selection-end-line="74" selection-end-column="87" />
         </state>
       </provider>
     </entry>
@@ -721,13 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-81">
           <caret line="99" column="23" selection-start-line="99" selection-start-column="23" selection-end-line="99" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/audio.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="165" column="46" selection-start-line="165" selection-start-column="46" selection-end-line="165" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -759,17 +761,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/audio.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="31" column="56" selection-start-line="31" selection-start-column="56" selection-end-line="31" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/audio.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="189" column="24" selection-start-line="189" selection-start-column="24" selection-end-line="189" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/instrument.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="76" column="14" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="14" />
+        <state relative-caret-position="462">
+          <caret line="112" column="33" selection-start-line="112" selection-start-column="33" selection-end-line="112" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/input.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="383" column="71" selection-start-line="383" selection-start-column="71" selection-end-line="383" selection-end-column="71" />
+        <state relative-caret-position="-107">
+          <caret line="361" column="55" selection-start-line="361" selection-start-column="55" selection-end-line="361" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/note.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
         </state>
       </provider>
     </entry>

@@ -100,6 +100,7 @@ instrument_set_volume_and_frequency(
         struct instrument *instrument
         , double volume_percent
         , double frequency_percent
+        , bool instantaneous
 )
 {
     instrument->frequency_percent = frequency_percent;
@@ -109,7 +110,7 @@ instrument_set_volume_and_frequency(
     {
         if (instrument->notes[i].on)
         {
-            note_set_target_frequency(&instrument->notes[i]);
+            note_set_target_frequency(&instrument->notes[i], instantaneous);
         }
     }
 }

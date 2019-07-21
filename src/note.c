@@ -38,7 +38,7 @@ note_compute_part_frequency(
 
 
 void
-note_set_target_frequency(struct note *note)
+note_set_target_frequency(struct note *note, bool instantaneous)
 {
     double base_frequency = 1000 * note->instrument->frequency_percent;
     double target_frequency = note_compute_part_frequency(
@@ -49,6 +49,9 @@ note_set_target_frequency(struct note *note)
     double diff = target_frequency - note->instant_frequency[0];
     for (int i = 0; i < note->instrument->parts; i++)
     {
+        if (instantaneous) {
+            note->sweep_duration_seconds = 0.01;
+        }
         note->target_frequency[i] = note->instant_frequency[i] + diff;
         note->base_frequency[i] = note->instant_frequency[i];
         note->delta[i] = (M_PI * 2) * note->base_frequency[i] / SAMPLE_RATE;
