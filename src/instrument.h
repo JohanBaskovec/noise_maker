@@ -70,4 +70,6 @@ instrument_set_parts(
         struct instrument *instrument, int parts
 );
 
+void
+instrument_move_to(struct instrument *instrument, double position_to_the_right_percent);
 #endif //NOISE_MAKER_INSTRUMENT_H

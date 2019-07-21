@@ -70,9 +70,10 @@ input_init()
 
 
     mouse_mapping[0] = KEY_NONE;
-    mouse_mapping[1] = KEY_SELECT_CHANNEL1;
-    mouse_mapping[2] = KEY_SELECT_CHANNEL1_AND_2;
-    mouse_mapping[3] = KEY_SELECT_CHANNEL2;
+    mouse_mapping[1] = DRAW;
+    mouse_mapping[1] = KEY_POINTER_1;
+    mouse_mapping[2] = KEY_POINTER_3;
+    mouse_mapping[3] = KEY_POINTER_2;
 
     for (int i = 0; i < KEY_ALL; i++)
     {
@@ -102,89 +103,36 @@ key_down(enum key key)
     switch (key)
     {
         case KEY_ONE_PART:
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
+            if (input.pressed_keys[KEY_POINTER_1])
             {
                 instrument_set_parts(&audio.instruments[0], 1);
-                instrument_set_parts(&audio.instruments[1], 1);
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1])
-            {
-                instrument_set_parts(&audio.instruments[0], 1);
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL2])
-            {
-                instrument_set_parts(&audio.instruments[1], 1);
             }
             break;
         case KEY_TWO_PART:
-
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
+            if (input.pressed_keys[KEY_POINTER_1])
             {
                 instrument_set_parts(&audio.instruments[0], 2);
-                instrument_set_parts(&audio.instruments[1], 2);
-
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1])
-            {
-                instrument_set_parts(&audio.instruments[0], 2);
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL2])
-            {
-                instrument_set_parts(&audio.instruments[1], 2);
             }
             break;
 
         case KEY_THREE_PART:
-
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
+            if (input.pressed_keys[KEY_POINTER_1])
             {
                 instrument_set_parts(&audio.instruments[0], 3);
-                instrument_set_parts(&audio.instruments[1], 3);
-
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1])
-            {
-                instrument_set_parts(&audio.instruments[0], 3);
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL2])
-            {
-                instrument_set_parts(&audio.instruments[1], 3);
             }
             break;
 
         case KEY_FOUR_PART:
-
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
+            if (input.pressed_keys[KEY_POINTER_1])
             {
                 instrument_set_parts(&audio.instruments[0], 4);
-                instrument_set_parts(&audio.instruments[1], 4);
-
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1])
-            {
-                instrument_set_parts(&audio.instruments[0], 4);
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL2])
-            {
-                instrument_set_parts(&audio.instruments[1], 4);
             }
             break;
 
         case KEY_FIVE_PART:
-
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
+            if (input.pressed_keys[KEY_POINTER_1])
             {
                 instrument_set_parts(&audio.instruments[0], 5);
-                instrument_set_parts(&audio.instruments[1], 5);
-
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL1])
-            {
-                instrument_set_parts(&audio.instruments[0], 5);
-            }
-            if (input.pressed_keys[KEY_SELECT_CHANNEL2])
-            {
-                instrument_set_parts(&audio.instruments[1], 5);
             }
             break;
         case KEY_NOTE_LEFT_1:
@@ -232,7 +180,7 @@ key_down(enum key key)
         case KEY_NOTE_LEFT_15:
             instrument_play(&audio.instruments[0], 14);
             break;
-        case KEY_SELECT_CHANNEL1:
+        case KEY_POINTER_1:
             for (int i = 0 ; i < NUMBER_INSTRUMENTS ; i++)
             {
                 for (int j = 0; j < MAX_SOUND_SHAPES_PER_INSTRUMENT; ++j)
@@ -363,7 +311,7 @@ key_up(enum key key)
         case KEY_NOTE_LEFT_15:
             instrument_release_note(&audio.instruments[0], 14);
             break;
-        case KEY_SELECT_CHANNEL1:
+        case KEY_POINTER_1:
             input.is_drawing = false;
             break;
     }
@@ -394,20 +342,19 @@ key_pressing()
     if (!input.is_drawing &&
         box_contain_vec2i(&program.playing_area_box, &input.mouse_position))
     {
-        if (input.pressed_keys[KEY_SELECT_CHANNEL1_AND_2])
+        if (input.pressed_keys[KEY_POINTER_3])
         {
-            program.pointers[0].x += input.mouse_delta.x;
-            program.pointers[0].y += input.mouse_delta.y;
-            program.pointers[1].x += input.mouse_delta.x;
-            program.pointers[1].y += input.mouse_delta.y;
-            audio_init_note_frequencies_and_volume();
+            program.pointers[2] = input.mouse_position;
+            instrument_move_to(
+                    &audio.instruments[0], input.mouse_position.x / (renderer.window_size.x * 1.0)
+            );
         }
-        else if (input.pressed_keys[KEY_SELECT_CHANNEL1])
+        if (input.pressed_keys[KEY_POINTER_1])
         {
             program.pointers[0] = input.mouse_position;
             audio_init_note_frequencies_and_volume();
         }
-        else if (input.pressed_keys[KEY_SELECT_CHANNEL2])
+        if (input.pressed_keys[KEY_POINTER_2])
         {
             program.pointers[1] = input.mouse_position;
             audio_init_note_frequencies_and_volume();
@@ -415,7 +362,7 @@ key_pressing()
     }
     else
     {
-        if (input.pressed_keys[KEY_SELECT_CHANNEL1])
+        if (input.pressed_keys[KEY_POINTER_1])
         {
             for (int i = 0; i < 2; ++i)
             {
@@ -502,8 +449,10 @@ input_poll()
             case SDL_MOUSEMOTION:
                 mouse_move(e.motion);
                 break;
+
+                /*
             case SDL_MOUSEWHEEL:
-                if (input.pressed_keys[KEY_SELECT_CHANNEL1])
+                if (input.pressed_keys[KEY_POINTER_1])
                 {
                     instrument_move_left(
                             &audio.instruments[0], 0.01 * e.wheel.y * input.move_left_multiplier
@@ -511,14 +460,6 @@ input_poll()
 
                     input.move_left_multiplier = 1 / ((current_time - input.last_move_left) / 1000.0);
                     input.last_move_left = current_time;
-                }
-                else if (input.pressed_keys[KEY_SELECT_CHANNEL2])
-                {
-                    instrument_move_right(
-                            &audio.instruments[1], 0.01 * e.wheel.y * input.move_right_multiplier
-                    );
-                    input.move_left_multiplier = 1 / ((current_time - input.last_move_right) / 1000.0);
-                    input.last_move_right = current_time;
                 }
                 if (input.move_right_multiplier > 5) {
                     input.move_right_multiplier = 5;
@@ -532,6 +473,8 @@ input_poll()
                 if (input.move_left_multiplier < 1) {
                     input.move_left_multiplier = 1;
                 }
+                 */
+
             default:
                 break;
         }

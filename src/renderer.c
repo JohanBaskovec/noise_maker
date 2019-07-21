@@ -117,6 +117,13 @@ renderer_render()
     glVertex2d(program.pointers[1].x - cursor_size, program.pointers[1].y + cursor_size);
     glEnd();
 
+    glBegin(GL_POLYGON);
+    glColor3f(0.1, 0.3, 0.5);
+    glVertex2d(program.pointers[2].x - cursor_size, program.pointers[2].y - cursor_size);
+    glVertex2d(program.pointers[2].x + cursor_size, program.pointers[2].y - cursor_size);
+    glVertex2d(program.pointers[2].x + cursor_size, program.pointers[2].y + cursor_size);
+    glVertex2d(program.pointers[2].x - cursor_size, program.pointers[2].y + cursor_size);
+    glEnd();
 
 
     glBegin(GL_LINES);

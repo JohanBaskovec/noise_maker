@@ -21,9 +21,6 @@ main()
     int sizeoflol = sizeof(audio.instruments[0].sound_shape);
     fread(audio.instruments[0].sound_shape, sizeof(char), sizeof(audio.instruments[0].sound_shape), f);
     fclose(f);
-    f = fopen("instrument1", "rb");
-    fread(audio.instruments[1].sound_shape, sizeof(char), sizeof(audio.instruments[1].sound_shape), f);
-    fclose(f);
 
     logging_trace("Main loop started...\n");
     while (!program.quit)
@@ -39,9 +36,6 @@ main()
 
     f = fopen("instrument0", "wb");
     fwrite(audio.instruments[0].sound_shape, sizeof(int), sizeof(audio.instruments[0].sound_shape), f);
-    fclose(f);
-    f = fopen("instrument1", "wb");
-    fwrite(audio.instruments[1].sound_shape, sizeof(int), sizeof(audio.instruments[1].sound_shape), f);
     fclose(f);
 
     return 0;

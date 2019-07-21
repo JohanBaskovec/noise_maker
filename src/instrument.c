@@ -1,6 +1,7 @@
 #include "instrument.h"
 #include "logging.h"
 #include <math.h>
+#include <assert.h>
 
 void
 instrument_init(
@@ -45,6 +46,34 @@ instrument_move_left(struct instrument *instrument, double volume)
 {
     instrument->volume_panning.data[0] += volume;
     instrument->volume_panning.data[1] -= volume;
+
+    if (instrument->volume_panning.data[0] > 1.0)
+    {
+        instrument->volume_panning.data[0] = 1.0;
+    }
+    else if (instrument->volume_panning.data[0] < 0)
+    {
+        instrument->volume_panning.data[0] = 0;
+    }
+    if (instrument->volume_panning.data[1] > 1.0)
+    {
+        instrument->volume_panning.data[1] = 1.0;
+    }
+    else if (instrument->volume_panning.data[1] < 0)
+    {
+        instrument->volume_panning.data[1] = 0;
+    }
+    logging_trace("Changed left balance. Volume left: %lf, volume right: %lf\n"
+                  , instrument->volume_panning.data[0]
+                  , instrument->volume_panning.data[1]);
+}
+
+void
+instrument_move_to(struct instrument *instrument, double position_to_the_right_percent)
+{
+    assert(position_to_the_right_percent > 0 && position_to_the_right_percent <= 1.0);
+    instrument->volume_panning.data[0] = 1.0 - position_to_the_right_percent;
+    instrument->volume_panning.data[1] = position_to_the_right_percent;
 
     if (instrument->volume_panning.data[0] > 1.0)
     {

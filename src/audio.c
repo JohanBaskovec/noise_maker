@@ -147,10 +147,6 @@ audio_init()
     instrument0_panning.data[1] = 0.0;
     instrument_init(&audio.instruments[0], instrument0_panning);
 
-    struct double_pair instrument1_panning;
-    instrument1_panning.data[0] = 0.0;
-    instrument1_panning.data[1] = 1.0;
-    instrument_init(&audio.instruments[1], instrument1_panning);
     logging_trace("Instruments initialized.");
 
     return 0;

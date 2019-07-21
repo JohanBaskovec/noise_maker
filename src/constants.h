@@ -10,6 +10,7 @@
 #define MAX_SAMPLE_VALUE 32767
 #define MS_TO_FRAMES(ms) ((int)((ms / 1000.0) * SAMPLE_RATE))
 #define FRAMES_TO_MS(frames) ((int)(((frames * 1.0) / (SAMPLE_RATE * 1.0)) * 1000))
-#define NUMBER_INSTRUMENTS 2
+#define NUMBER_POINTERS 3
+#define NUMBER_INSTRUMENTS 1
 #define NOTES_PER_INSTRUMENT 15
 #define MAX_SOUND_SHAPES_PER_INSTRUMENT 25
