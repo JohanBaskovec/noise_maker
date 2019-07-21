@@ -71,7 +71,6 @@ instrument_move_left(struct instrument *instrument, double volume)
 void
 instrument_move_to(struct instrument *instrument, double position_to_the_right_percent)
 {
-    assert(position_to_the_right_percent > 0 && position_to_the_right_percent <= 1.0);
     instrument->volume_panning.data[0] = 1.0 - position_to_the_right_percent;
     instrument->volume_panning.data[1] = position_to_the_right_percent;
 

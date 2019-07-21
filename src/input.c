@@ -348,6 +348,8 @@ key_pressing()
             instrument_move_to(
                     &audio.instruments[0], input.mouse_position.x / (renderer.window_size.x * 1.0)
             );
+            audio.frequency_sweep = (input.mouse_position.y / (renderer.window_size.y * 1.0)) * 5;
+            logging_trace("Frequency sweep: %f", audio.frequency_sweep);
         }
         if (input.pressed_keys[KEY_POINTER_1])
         {
@@ -377,14 +379,6 @@ key_pressing()
         }
     }
 
-    if (input.pressed_keys[KEY_INCREASE_FREQUENCY_SWEEP]) {
-        audio.frequency_sweep += 0.01;
-        logging_trace("Frequency sweep: %f", audio.frequency_sweep);
-    }
-    if (input.pressed_keys[KEY_DECREASE_FREQUENCY_SWEEP]) {
-        audio.frequency_sweep -= 0.01;
-        logging_trace("Frequency sweep: %f", audio.frequency_sweep);
-    }
     if (input.pressed_keys[KEY_CHANGE_FREQUENCY_OFFSET]) {
         program.frequency_offset = rand() % 100;
     }
