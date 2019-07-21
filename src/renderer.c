@@ -1,12 +1,14 @@
 #include "renderer.h"
 #include "logging.h"
 #include "program.h"
+#include "input.h"
 #include <SDL2/SDL.h>
 #include <GL/gl.h>
 
 SDL_Window *window;
 SDL_GLContext gl_context;
 struct renderer renderer;
+int mouse_pointer_size = 3;
 
 /**
  * Initializes the renderer.
@@ -123,6 +125,14 @@ renderer_render()
     glVertex2d(program.pointers[2].x + cursor_size, program.pointers[2].y - cursor_size);
     glVertex2d(program.pointers[2].x + cursor_size, program.pointers[2].y + cursor_size);
     glVertex2d(program.pointers[2].x - cursor_size, program.pointers[2].y + cursor_size);
+    glEnd();
+
+    glBegin(GL_POLYGON);
+    glColor3f(1, 0.1, 0.7);
+    glVertex2d(input.mouse_position.x - mouse_pointer_size, input.mouse_position.y - mouse_pointer_size);
+    glVertex2d(input.mouse_position.x + mouse_pointer_size, input.mouse_position.y - mouse_pointer_size);
+    glVertex2d(input.mouse_position.x + mouse_pointer_size, input.mouse_position.y + mouse_pointer_size);
+    glVertex2d(input.mouse_position.x - mouse_pointer_size, input.mouse_position.y + mouse_pointer_size);
     glEnd();
 
 

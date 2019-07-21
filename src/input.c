@@ -19,6 +19,7 @@ enum key mouse_mapping[MAX_MOUSE_BUTTONS];
 void
 input_init()
 {
+    SDL_SetRelativeMouseMode(true);
     key_mapping[SDL_SCANCODE_Q] = KEY_NOTE_LEFT_1;
     key_mapping[SDL_SCANCODE_W] = KEY_NOTE_LEFT_2;
     key_mapping[SDL_SCANCODE_E] = KEY_NOTE_LEFT_3;
