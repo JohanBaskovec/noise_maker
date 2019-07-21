@@ -49,13 +49,15 @@ note_set_target_frequency(struct note *note, bool instantaneous)
     double diff = target_frequency - note->instant_frequency[0];
     for (int i = 0; i < note->instrument->parts; i++)
     {
-        if (instantaneous) {
-            note->sweep_duration_seconds = 0.01;
-        }
         note->target_frequency[i] = note->instant_frequency[i] + diff;
         note->base_frequency[i] = note->instant_frequency[i];
+        if (instantaneous) {
+            note->base_frequency[i] = note->target_frequency[i];
+            note->instant_frequency[i] = note->base_frequency[i];
+            logging_trace("%f", note->base_frequency[i]);
+        }
         note->delta[i] = (M_PI * 2) * note->base_frequency[i] / SAMPLE_RATE;
-        if (note->sweep_duration_seconds == 0)
+        if (note->sweep_duration_seconds == 0 || instantaneous)
         {
             note->f_delta[i] = 0;
         }
@@ -86,7 +88,7 @@ note_play_new(struct note *note)
     {
         note->delta[i] = 0;
         note->f_delta[i] = 0;
-        note->offset[i] = rand() % SAMPLE_RATE;
+        note->offset[i] = audio.note_part_offset % SAMPLE_RATE;
         note->phase_accumulator[i] = note->offset[i];
     }
 
@@ -108,10 +110,13 @@ note_play_new(struct note *note)
     double volume_left = 1 - note->volumes_per_part[0];
 
     int i = 1;
+
+    logging_trace("parts: %d", note->instrument->parts);
     for (; i < note->instrument->parts; i++)
     {
-        note->volumes_per_part[i] = ((rand() % 100) / 100.0) * volume_left;
-        //logging_trace("%lf\n", note->volumes_per_part[i]);
+        note->volumes_per_part[i] = ((audio.note_part_offset % 100) / 100.0) * volume_left;
+        logging_trace("part %d", i);
+        logging_trace("%lf\n", note->volumes_per_part[i]);
         volume_left -= note->volumes_per_part[i];
         if (volume_left <= 0)
         {

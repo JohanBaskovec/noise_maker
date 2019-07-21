@@ -104,37 +104,19 @@ key_down(enum key key)
     switch (key)
     {
         case KEY_ONE_PART:
-            if (input.pressed_keys[KEY_POINTER_1])
-            {
-                instrument_set_parts(&audio.instruments[0], 1);
-            }
+            instrument_set_parts(&audio.instruments[0], 1);
             break;
         case KEY_TWO_PART:
-            if (input.pressed_keys[KEY_POINTER_1])
-            {
-                instrument_set_parts(&audio.instruments[0], 2);
-            }
+            instrument_set_parts(&audio.instruments[0], 2);
             break;
-
         case KEY_THREE_PART:
-            if (input.pressed_keys[KEY_POINTER_1])
-            {
-                instrument_set_parts(&audio.instruments[0], 3);
-            }
+            instrument_set_parts(&audio.instruments[0], 3);
             break;
-
         case KEY_FOUR_PART:
-            if (input.pressed_keys[KEY_POINTER_1])
-            {
-                instrument_set_parts(&audio.instruments[0], 4);
-            }
+            instrument_set_parts(&audio.instruments[0], 4);
             break;
-
         case KEY_FIVE_PART:
-            if (input.pressed_keys[KEY_POINTER_1])
-            {
-                instrument_set_parts(&audio.instruments[0], 5);
-            }
+            instrument_set_parts(&audio.instruments[0], 5);
             break;
         case KEY_NOTE_LEFT_1:
             instrument_play(&audio.instruments[0], 0);
@@ -382,6 +364,7 @@ key_pressing()
 
     if (input.pressed_keys[KEY_CHANGE_FREQUENCY_OFFSET]) {
         program.frequency_offset = rand() % 100;
+        audio.note_part_offset = rand();
 
         audio_init_note_frequencies_and_volume(true);
         logging_trace("Frequency offset: %f", program.frequency_offset);

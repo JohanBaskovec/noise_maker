@@ -75,6 +75,7 @@ audio_init()
     audio_data.read_end = 0;
     audio_data.write_end = 0;
     audio.frequency_sweep = 0.01;
+    audio.note_part_offset = 1000;
 
     PaError err;
     err = Pa_Initialize();
