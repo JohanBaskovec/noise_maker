@@ -91,6 +91,7 @@ input_init()
     unsigned int current_time = SDL_GetTicks();
     input.last_move_left = 0;
     input.last_move_right = 0;
+    input.is_drawing = false;
 }
 
 void
@@ -349,7 +350,7 @@ key_pressing()
     {
         if (input.pressed_keys[KEY_POINTER_1])
         {
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < NUMBER_INSTRUMENTS; ++i)
             {
                 if (box_contain_vec2i(
                         &program.sound_drawing_canvas[i].box
