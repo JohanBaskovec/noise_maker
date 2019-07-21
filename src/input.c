@@ -381,6 +381,8 @@ key_pressing()
 
     if (input.pressed_keys[KEY_CHANGE_FREQUENCY_OFFSET]) {
         program.frequency_offset = rand() % 100;
+        audio_init_note_frequencies_and_volume();
+        logging_trace("Frequency offset: %f", program.frequency_offset);
     }
 }
 
