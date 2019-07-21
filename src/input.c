@@ -308,9 +308,6 @@ key_down(enum key key)
         case SOUND_SHAPE_SELECTOR_21:
             audio.instruments[0].current_sound_shape = audio.instruments[0].sound_shape[20];
             break;
-        case KEY_CHANGE_FREQUENCY_OFFSET:
-            program.frequency_offset = rand() % 100;
-            break;
     }
     logging_trace("key down");
 }
@@ -440,6 +437,9 @@ key_pressing()
     if (input.pressed_keys[KEY_DECREASE_FREQUENCY_SWEEP]) {
         audio.frequency_sweep -= 0.01;
         logging_trace("Frequency sweep: %f", audio.frequency_sweep);
+    }
+    if (input.pressed_keys[KEY_CHANGE_FREQUENCY_OFFSET]) {
+        program.frequency_offset = rand() % 100;
     }
 }
 

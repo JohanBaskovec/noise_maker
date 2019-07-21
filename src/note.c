@@ -193,8 +193,6 @@ note_create_sample(struct note *note)
         if (note->volume_before_attenuation < 1.0)
         {
             note->volume_before_attenuation += note->volume_increase_per_frame;
-                    //note->timer_frames / (note->attack_duration_frame * 1.0);
-            printf("%f\n", note->volume);
         }
     }
 

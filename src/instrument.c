@@ -124,5 +124,6 @@ instrument_set_parts(
         struct instrument *instrument, int parts
 )
 {
+    logging_trace("Settings number of parts: %d", parts);
     instrument->parts = parts;
 }
