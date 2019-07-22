@@ -171,11 +171,16 @@ generate_sample(struct note *note)
             );
         }
         note->phase_accumulator[i] += note->delta[i];
-        if (fabs(note->instant_frequency[i] - note->target_frequency[i]) >
-            0.001)
-        {
-            note->instant_frequency[i] += note->f_delta[i];
+        if (note->f_delta[i] > 0) {
+            if (note->instant_frequency[i] > note->target_frequency[i]) {
+                note->f_delta[i] = 0;
+            }
+        } else {
+            if (note->instant_frequency[i] < note->target_frequency[i]) {
+                note->f_delta[i] = 0;
+            }
         }
+        note->instant_frequency[i] += note->f_delta[i];
         note->delta[i] = (M_PI * 2) * note->instant_frequency[i] / SAMPLE_RATE;
         note_average_frequency += note->instant_frequency[i];
     }
