@@ -101,7 +101,7 @@ draw_box(struct box *box)
 enum RENDERER_RENDERING_ERROR
 renderer_render()
 {
-    double max_frequency_percentage = audio.average_frequency / 20000.0;
+    double max_frequency_percentage = audio.average_frequency / 10000.0;
     double max_volume_percentage = audio.total_volume / 30.0;
     glClearColor(max_volume_percentage, max_frequency_percentage, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);

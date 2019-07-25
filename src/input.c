@@ -12,7 +12,7 @@ void
 draw_in_canvas(struct sound_drawing_canvas *canvas);
 
 enum key key_mapping[SDL_NUM_SCANCODES];
-#define MAX_MOUSE_BUTTONS 4
+#define MAX_MOUSE_BUTTONS 8
 #define MAX_MOUSE_BUTTON_INDEX (MAX_MOUSE_BUTTONS - 1)
 enum key mouse_mapping[MAX_MOUSE_BUTTONS];
 
@@ -75,6 +75,8 @@ input_init()
     mouse_mapping[1] = KEY_POINTER_1;
     mouse_mapping[2] = KEY_POINTER_3;
     mouse_mapping[3] = KEY_POINTER_2;
+    mouse_mapping[4] = KEY_CHANGE_FREQUENCY_OFFSET;
+    mouse_mapping[5] = KEY_CHANGE_FREQUENCY_OFFSET;
 
     for (int i = 0; i < KEY_ALL; i++)
     {
@@ -420,7 +422,8 @@ input_poll()
                     continue;
                 }
 
-                logging_trace("%d\n", e.button.button);
+                logging_trace("pressed button %d", e.button.button);
+                logging_trace("mapping: %d", mouse_mapping[e.button.button]);
                 key_down(mouse_mapping[e.button.button]);
                 break;
             case SDL_MOUSEBUTTONUP:
@@ -428,23 +431,19 @@ input_poll()
                 {
                     continue;
                 }
+                logging_trace("released button %d", e.button.button);
+                logging_trace("mapping: %d", mouse_mapping[e.button.button]);
                 key_up(mouse_mapping[e.button.button]);
                 break;
             case SDL_MOUSEMOTION:
                 mouse_move(e.motion);
                 break;
 
-                /*
             case SDL_MOUSEWHEEL:
-                if (input.pressed_keys[KEY_POINTER_1])
-                {
-                    instrument_move_left(
-                            &audio.instruments[0], 0.01 * e.wheel.y * input.move_left_multiplier
-                    );
+                audio.global_volume += 0.01 * e.wheel.y * input.move_left_multiplier;
 
-                    input.move_left_multiplier = 1 / ((current_time - input.last_move_left) / 1000.0);
-                    input.last_move_left = current_time;
-                }
+                input.move_left_multiplier = 1 / ((current_time - input.last_move_left) / 1000.0);
+                input.last_move_left = current_time;
                 if (input.move_right_multiplier > 5) {
                     input.move_right_multiplier = 5;
                 }
@@ -457,7 +456,6 @@ input_poll()
                 if (input.move_left_multiplier < 1) {
                     input.move_left_multiplier = 1;
                 }
-                 */
 
             default:
                 break;

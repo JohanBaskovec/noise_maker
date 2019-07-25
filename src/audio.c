@@ -70,6 +70,7 @@ audio_init()
 {
     logging_trace("Initializing audio system...");
 
+    audio.global_volume = 1.0;
 
     audio_data.circular_buffer = malloc(TABLE_SIZE * sizeof(int16_t));
     audio_data.read_end = 0;
@@ -173,14 +174,14 @@ audio_update()
         audio.last_sample_total = samples.data[0] + samples.data[1];
         audio.average_frequency /= NUMBER_INSTRUMENTS;
 
-        audio_data.circular_buffer[audio_data.write_end] = (int16_t) samples.data[0];
+        audio_data.circular_buffer[audio_data.write_end] = ((int16_t) samples.data[0]) * audio.global_volume;
         ++audio_data.write_end;
         if (audio_data.write_end == TABLE_SIZE)
         {
             audio_data.write_end = 0;
         }
 
-        audio_data.circular_buffer[audio_data.write_end] = (int16_t) samples.data[1];
+        audio_data.circular_buffer[audio_data.write_end] = ((int16_t) samples.data[1]) * audio.global_volume;
         ++audio_data.write_end;
         if (audio_data.write_end == TABLE_SIZE)
         {

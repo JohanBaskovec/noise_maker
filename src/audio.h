@@ -13,6 +13,7 @@ struct audio
     float average_frequency;
     int64_t last_sample_total;
     double total_volume;
+    double global_volume;
 };
 
 extern struct audio audio;
